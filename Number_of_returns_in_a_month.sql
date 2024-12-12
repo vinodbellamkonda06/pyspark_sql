@@ -85,3 +85,37 @@ LEFT JOIN
 	(SELECT *, EXTRACT(MONTH FROM OrderDate) as month FROM Orders) as o 
 ON  r.OrderId = o.OrderId 
 Group BY o.month;
+
+" Improvements for the above query"
+
+SELECT
+    COUNT(r.ReturnId) AS total_returns,
+    COALESCE(EXTRACT(MONTH FROM o.OrderDate), 0) AS month
+FROM Returns AS r
+LEFT JOIN Orders AS o
+    ON r.OrderId = o.OrderId
+GROUP BY month
+ORDER BY month;
+
+
+"
+Functions used in this query:
+	- EXTRACT
+	- COALESCE
+Joins used:
+	- Left Join
+Aggrigate functions:
+	- COUNT
+
+
+## EXTRACT:
+	- EXTRACT function is used retrive specific parts of DATE and Time Values such as Year, Month, Day, Hour, Minutes.
+	- Syntax:
+			- EXTRACT(part FROM date)
+		- Here Part represent the which part of date field wnat to be retrive like day, year, month.
+## COALESCE:
+	- COALESCE function is used to return the first non-Null values from the given list of expressions.
+	- It will be usefull when working with data containing Null values.
+	- Syntax:
+		- COALESCE(Expression1, expression2, ..., Default value)
+"
